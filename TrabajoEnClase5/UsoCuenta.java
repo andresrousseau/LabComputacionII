@@ -1,0 +1,63 @@
+package TrabajoEnClase5;
+
+import java.util.Scanner;
+
+public class UsoCuenta {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Cantidad de cuentas a guardar: ");
+        int cantCuenta = sc.nextInt();
+
+        CuentaCorriente[] cuentas = new CuentaCorriente[cantCuenta];
+
+        CuentaCorriente.CargarCuentas(cuentas);
+
+        int seleccion;
+
+        do {
+            System.out.print("\n--------------------------\n"
+                    + "SELECCIONE OPERACIÓN:\n"
+                    + "1 - Buscar cuenta\n"
+                    + "2 - Listar cuentas\n"
+                    + "3 - Realizar Transferencia\n"
+                    + "0 - Finalizar\n" + "--------------------------\n");
+
+            seleccion = sc.nextInt();
+
+            switch (seleccion) {
+
+                case 1:
+
+                    System.out.println("Ingresar el NRO de cuenta a buscar:");
+                    CuentaCorriente cuentaBuscada = CuentaCorriente.BuscarCuenta(cuentas, sc.nextInt());
+                    if (cuentaBuscada.verNumeroCuenta() != 0) {
+                        System.out.println("BUSQUEDA EXITOSA!\n");
+                        System.out.print(cuentaBuscada.verInfo());
+                    } else {
+                        System.out.println("no se encontro la cuenta buscada");
+                    }
+                    break;
+                case 2:
+                    CuentaCorriente.ListarCuentas(cuentas);
+                    break;
+                case 3:
+                    System.out.print("Ingrese el nro de la Cuenta ORIGEN: ");
+                    int nroCtaOrigen = sc.nextInt();
+                    System.out.print("Ingrese el nro de la Cuenta DESTINO: ");
+                    int nroCtaDestino = sc.nextInt();
+                    CuentaCorriente origen = CuentaCorriente.BuscarCuenta(cuentas, nroCtaOrigen);
+                    CuentaCorriente destino = CuentaCorriente.BuscarCuenta(cuentas, nroCtaDestino);
+                    System.out.print("Ingrese el monto a transferir: ");
+                    double monto = sc.nextDouble();
+                    CuentaCorriente.Transferir(origen, destino, monto);
+                default:
+                    break;
+            }
+
+        }while (seleccion != 0);
+
+        System.out.println("FIN DE LA EJECUCION");
+    }
+}
